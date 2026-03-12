@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Our Special Quiz 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+margin:0;
+font-family:'Poppins',sans-serif;
+background:radial-gradient(circle at center,#1a0510,#000);
+color:white;
+display:flex;
+flex-direction:column;
+align-items:center;
+min-height:100vh;
+padding:20px;
+overflow-x:hidden;
+position:relative;
+}
+
+.heart{
+position:absolute;
+font-size:16px;
+pointer-events:none;
+opacity:0.75;
+animation:floatUp linear infinite;
+}
+
+@keyframes floatUp{
+0%{transform:translateY(100vh);opacity:0;}
+10%{opacity:0.9;}
+100%{transform:translateY(-10vh);opacity:0;}
+}
+
+.burstHeart{
+position:absolute;
+font-size:18px;
+pointer-events:none;
+animation:burst 1s ease forwards;
+}
+
+@keyframes burst{
+0%{transform:translate(0,0) scale(.6);opacity:1;}
+100%{transform:translate(var(--x),var(--y)) scale(1.4);opacity:0;}
+}
+
+h1{
+font-family:'Playfair Display',serif;
+font-size:2rem;
+color:#ffb6d9;
+margin-bottom:20px;
+text-shadow:0 0 15px rgba(255,182,193,0.9);
+}
+
+.quiz-container{
+width:100%;
+max-width:520px;
+background:rgba(0,0,0,0.55);
+padding:24px 28px;
+border-radius:22px;
+border:1px solid rgba(255,182,193,0.35);
+box-shadow:
+0 0 20px rgba(255,182,193,0.35),
+0 0 50px rgba(255,105,180,0.25),
+inset 0 0 15px rgba(255,182,193,0.15);
+backdrop-filter:blur(8px);
+text-align:center;
+}
+
+#scoreBox{
+background:linear-gradient(45deg,#ff5fa2,#ff9ebc);
+padding:8px 20px;
+border-radius:40px;
+font-weight:600;
+margin-bottom:10px;
+box-shadow:0 0 15px rgba(255,105,180,0.7);
+}
+
+.question{
+font-size:1.25rem;
+margin:15px 0;
+}
+
+.options{
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:10px;
+}
+
+.option-btn{
+padding:10px 18px;
+min-width:230px;
+border:none;
+border-radius:50px;
+background:linear-gradient(45deg,#ffd6e8,#ff9ebc);
+color:#5a1730;
+font-weight:600;
+cursor:pointer;
+transition:.25s;
+}
+
+.option-btn:hover{
+transform:scale(1.07);
+}
+
+#feedback{
+margin-top:15px;
+font-size:1rem;
+color:#ff9ebc;
+min-height:1.4rem;
+}
+
+#gifBox img{
+margin-top:10px;
+width:160px;
+border-radius:12px;
+}
+
+#timer{
+margin-top:10px;
+color:#ffc2d1;
+}
+
+#continueBtn{
+margin-top:20px;
+padding:14px 32px;
+border:none;
+border-radius:50px;
+background:linear-gradient(45deg,#ffd6e8,#ff9ebc);
+color:#5a1730;
+cursor:pointer;
+font-weight:600;
+display:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>💖 Our Special Quiz 💖</h1>
+
+<div class="quiz-container">
+
+<div id="scoreBox">Score: 0/9</div>
+
+<div class="question" id="question"></div>
+
+<div class="options" id="options"></div>
+
+<div id="feedback"></div>
+
+<div id="gifBox"></div>
+
+<div id="timer"></div>
+
+<button id="continueBtn" onclick="goNext()">▶ Next Surprise</button>
+
+</div>
+
+<script>
+
+function createHearts(){
+const heart=document.createElement('div');
+heart.className='heart';
+heart.innerText="💖";
+heart.style.left=Math.random()*95+'vw';
+heart.style.fontSize=14+Math.random()*14+'px';
+heart.style.animationDuration=4+Math.random()*3+'s';
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),7000);
+}
+
+setInterval(createHearts,400);
+
+function heartBurst(x,y){
+for(let i=0;i<8;i++){
+const h=document.createElement("div");
+h.className="burstHeart";
+h.innerText="💗";
+h.style.left=x+"px";
+h.style.top=y+"px";
+const dx=(Math.random()*120-60)+"px";
+const dy=(Math.random()*120-60)+"px";
+h.style.setProperty("--x",dx);
+h.style.setProperty("--y",dy);
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),1000);
+}
+}
+
+/* quiz data */
+
+const quiz=[
+{
+q:"My favorite dessert is?",
+options:["Biscoff milkcake","Kunafa","Chocolate cake","Ice cream"],
+answer:"Biscoff milkcake",
+correct:"Aww yes! You know my sweet cravings perfectly ❤️😌",
+wrong:"Ath thanne thettich 😤",
+correctVoice:"media/R-Q1.mp3",
+wrongVoice:"media/W-Q1.mp3",
+correctGif:"media/bubu loving.gif",
+wrongGif:"media/angry bubu.gif"
+},
+
+{
+q:"My favorite hobby?",
+options:["Dancing","Singing","Reading","Cooking"],
+answer:"Dancing",
+correct:"Yesss! Dancing makes me so happy 😌",
+wrong:"Athpolum ariyillalle bldy ful 😏",
+correctVoice:"media/R song.mp3",
+wrongVoice:"media/W-Q2.mp3",
+correctGif:"media/dudu dancing.gif",
+wrongGif:"media/dudu bubu fight.gif"
+},
+
+{
+q:"Date of our first meet?",
+options:["Aug 8","Aug 10","Aug 12","Aug 15"],
+answer:"Aug 10",
+correct:"I'm so happy you remember our special day 🥹❤️",
+wrong:"Marannu Alle! dushta 😡👊",
+correctVoice:"media/R-Q3.mp3",
+wrongVoice:"media/W-Q3.mp3",
+correctGif:"media/cat.gif",
+wrongGif:"media/bubu dont talk.gif"
+},
+
+{
+q:"Your special talent I love?",
+options:["Cooking","Singing","Dancing","All"],
+answer:"All",
+correct:"Exactly! I love everything about you 💖",
+wrong:"Nope! I love ALL your talents!",
+correctVoice:"media/R-Q4.mp3",
+wrongVoice:"media/R-Q4.mp3",
+correctGif:"media/rash.gif",
+wrongGif:"media/rash.gif"
+},
+
+{
+q:"My favorite colors?",
+options:["Black, Beige, Pink","Blue, Green","Red, White","Yellow, Orange"],
+answer:"Black, Beige, Pink",
+correct:"Perfect! You know my style 🫶",
+wrong:"Ith nee crct aayit parayilann enik ariyaarnn 😂😂 ",
+correctVoice:"media/R-Q5.mp3",
+wrongVoice:"media/W-Q5.mp3",
+correctGif:"media/ily.gif",
+wrongGif:"media/laughing.gif"
+},
+
+{
+q:"My favorite place to go with you?",
+options:["Paris","Thailand","France","Singapore"],
+answer:"Thailand",
+correct:"Hehe you guessed it right 😌",
+wrong:"Njn palavattam paranjitollathaan annitum marannu 😬, Very bad",
+correctVoice:"media/R-Q6.mp3",
+wrongVoice:"media/W-Q6.mp3",
+correctGif:"media/bubu travel.gif",
+wrongGif:"media/dudu bubu fight 2.gif"
+},
+
+{
+q:"Guess what's my favorite thing about you?",
+options:["Your smile","Your hugs","Your laugh","Everything ❤️"],
+answer:"Everything ❤️",
+correct:"Awww yes! Everything about you is special to me 💗😘",
+wrong:"Nope! It's EVERYTHING about you!(Nee nta shuttumani alleda 😌😘)",
+correctVoice:"media/R-Q7.mp3",
+wrongVoice:"media/R-Q7.mp3",
+correctGif:"media/cute dudu.gif",
+wrongGif:"media/cute dudu.gif"
+},
+
+{
+q:"Which expression of mine always makes you smile?",
+options:["😂 Laughing face","😉 Cute wink","😏 Cheeky grin","😍 All of the above"],
+any:true,
+correct:"Aww I love that you chose that!",
+correctVoice:"media/R8-Q8.mp3",
+correctGif:"media/cute bubu.gif"
+},
+
+{
+q:"Which pet I love most?",
+options:["Cat","Rabbit","Dog","Hamster"],
+answer:"Dog",
+correct:"Yes! Dogs are my favorite 🐶 , Since you chose the correct answer, this song is for you",
+wrong:"Not really! I love dogs the most!",
+correctVoice:"media/R-Q9.mp3",
+wrongVoice:"media/W-Q9.mp3",
+correctGif:"media/dudu bubu h and k.gif",
+wrongGif:"media/naz angry.gif"
+}
+
+];
+
+let current=0;
+let timer;
+let timeLeft=10;
+let score=0;
+
+function updateScore(){
+document.getElementById("scoreBox").innerText="Score: "+score+"/"+quiz.length;
+}
+
+function loadQuestion(){
+
+timeLeft=10;
+
+const q=quiz[current];
+
+document.getElementById("question").innerText=q.q;
+document.getElementById("feedback").innerText="";
+document.getElementById("gifBox").innerHTML="";
+document.getElementById("timer").innerText="⏱ 10s";
+
+updateScore();
+
+const optionsDiv=document.getElementById("options");
+optionsDiv.innerHTML="";
+
+q.options.forEach(opt=>{
+const btn=document.createElement("button");
+btn.className="option-btn";
+btn.innerText=opt;
+btn.onclick=(e)=>checkAnswer(opt,e);
+optionsDiv.appendChild(btn);
+});
+
+clearInterval(timer);
+
+timer=setInterval(()=>{
+timeLeft--;
+document.getElementById("timer").innerText="⏱ "+timeLeft+"s";
+if(timeLeft<=0){
+clearInterval(timer);
+document.getElementById("feedback").innerText="Time's up 😢";
+setTimeout(nextQuestion,2000);
+}
+},1000);
+}
+
+function checkAnswer(ans,event){
+
+clearInterval(timer);
+
+const q=quiz[current];
+
+document.querySelectorAll(".option-btn").forEach(btn=>{
+btn.disabled=true;
+});
+
+let audio;
+
+const rect=event.target.getBoundingClientRect();
+heartBurst(rect.left+rect.width/2,rect.top);
+
+if(q.any){
+
+score++;
+updateScore();
+
+document.getElementById("feedback").innerText=q.correct;
+document.getElementById("gifBox").innerHTML=`<img src="${q.correctGif}">`;
+
+audio=new Audio(q.correctVoice);
+
+}
+
+else if(ans===q.answer){
+
+score++;
+updateScore();
+
+document.getElementById("feedback").innerText=q.correct;
+document.getElementById("gifBox").innerHTML=`<img src="${q.correctGif}">`;
+
+audio=new Audio(q.correctVoice);
+
+}
+
+else{
+
+document.getElementById("feedback").innerText=q.wrong+" Correct answer: "+q.answer;
+document.getElementById("gifBox").innerHTML=`<img src="${q.wrongGif}">`;
+
+audio=new Audio(q.wrongVoice);
+
+}
+
+audio.play();
+
+audio.onended=()=>{
+nextQuestion();
+};
+
+}
+
+function nextQuestion(){
+
+current++;
+
+if(current<quiz.length){
+
+loadQuestion();
+
+}else{
+
+document.getElementById("question").innerText="🎉 You completed the quiz! 🎉";
+document.getElementById("options").style.display="none";
+document.getElementById("timer").style.display="none";
+
+let finalGif="";
+
+if(score===9){
+finalGif="media/kali.gif";
+}
+else if(score>=6){
+finalGif="media/cute love.gif";
+}
+else{
+finalGif="media/funny beating.gif";
+}
+
+document.getElementById("feedback").innerHTML=
+"Final Score: <br><br><b>"+score+" / "+quiz.length+"</b> 💖";
+
+document.getElementById("gifBox").innerHTML=
+`<img src="${finalGif}">`;
+
+document.getElementById("continueBtn").style.display="inline-block";
+
+}
+
+}
+
+function goNext(){
+window.location.href="cake.html";
+}
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>🎁 Your Special Surprise 🎁</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  font-family:"Times New Roman", Times, serif;
+  background: radial-gradient(circle at center,#1a0510,#000);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  color:white;
+  position:relative;
+}
+
+/* Soft Camera Zoom on Reveal */
+body.zoom{
+  animation: cameraZoom 20s ease-in-out forwards;
+}
+@keyframes cameraZoom{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.04);}
+  100%{transform:scale(1);}
+}
+
+/* Floating hearts */
+.heart{
+  position:fixed;
+  font-size:16px;
+  opacity:0.6;
+  pointer-events:none;
+  animation: floatUp linear infinite;
+}
+@keyframes floatUp{
+  from{transform:translateY(100vh)}
+  to{transform:translateY(-10vh)}
+}
+
+/* Fireflies */
+.firefly{
+  position:fixed;
+  width:6px;
+  height:6px;
+  background:#ffd6e8;
+  border-radius:50%;
+  box-shadow:0 0 12px #ffd6e8;
+  animation: fly 8s linear infinite;
+  opacity:0.8;
+}
+@keyframes fly{
+  from{transform:translateY(100vh) translateX(0);}
+  to{transform:translateY(-10vh) translateX(20vw);}
+}
+
+/* Sparkles */
+.bokeh{
+  position:fixed;
+  width:8px;
+  height:8px;
+  background:radial-gradient(circle,#ffd6e8 0%,transparent 70%);
+  border-radius:50%;
+  pointer-events:none;
+  opacity:0.6;
+  animation: sparkle 6s linear infinite;
+}
+@keyframes sparkle{
+  0%{transform:translate(0,0) scale(1); opacity:0.2;}
+  50%{opacity:0.8; transform:translate(100px,50px) scale(1.5);}
+  100%{transform:translate(0,0) scale(1); opacity:0.2;}
+}
+
+/* Surprise container */
+.container{
+  text-align:center;
+  z-index:10;
+  max-width:90%;
+}
+
+/* Reveal button */
+#revealBtn{
+  padding:18px 40px;
+  font-size:22px;
+  font-weight:bold;
+  border:none;
+  border-radius:50px;
+  background:linear-gradient(45deg,#ffb6d9,#ff5fa2);
+  color:#fff;
+  cursor:pointer;
+  box-shadow:0 0 35px rgba(255,105,180,0.7);
+  transition:0.3s;
+}
+#revealBtn:hover{
+  transform:scale(1.1);
+  box-shadow:0 0 50px rgba(255,105,180,0.9);
+}
+
+/* Hidden surprise content */
+#surpriseContent{
+  margin-top:25px;
+  opacity:0;
+  transform:scale(0.8);
+  transition:1.5s ease;
+}
+#surpriseContent.show{
+  opacity:1;
+  transform:scale(1);
+}
+
+/* Surprise video / image */
+#surpriseContent video, #surpriseContent img{
+  max-width:90vw;
+  max-height:70vh;
+  border-radius:20px;
+  box-shadow:0 0 40px rgba(255,182,193,0.7);
+}
+
+/* Grand Finale Text */
+#finalText{
+  margin-top:25px;
+  font-size:28px;
+  font-weight:bold;
+  color:#ffd6e8;
+  opacity:0;
+  transform:translateY(20px);
+  transition:opacity 2s ease, transform 2s ease;
+}
+#finalText.show{
+  opacity:1;
+  transform:translateY(0);
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <button id="revealBtn" onclick="revealSurprise()">💝 Open Your Surprise</button>
+  
+  <div id="surpriseContent">
+    <!-- Example: Video -->
+    <video src="media/surprise.mp4" controls autoplay loop></video>
+  </div>
+
+  <div id="finalText">🎉 This is all for you ❤️… My special gift 🎁</div>
+</div>
+
+<script>
+/* Floating hearts */
+setInterval(()=>{
+  let heart=document.createElement("div");
+  heart.className="heart";
+  heart.innerText=["❤️","💖","💕","💘"][Math.floor(Math.random()*4)];
+  heart.style.left=Math.random()*95+"vw";
+  heart.style.animationDuration=4+Math.random()*3+"s";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),7000);
+},400);
+
+/* Fireflies */
+setInterval(()=>{
+  let fly=document.createElement("div");
+  fly.className="firefly";
+  fly.style.left=Math.random()*95+"vw";
+  fly.style.animationDuration=6+Math.random()*5+"s";
+  document.body.appendChild(fly);
+  setTimeout(()=>fly.remove(),9000);
+},500);
+
+/* Sparkles */
+setInterval(()=>{
+  let bokeh=document.createElement("div");
+  bokeh.className="bokeh";
+  bokeh.style.left=Math.random()*95+"vw";
+  bokeh.style.top=Math.random()*95+"vh";
+  bokeh.style.animationDuration=5+Math.random()*4+"s";
+  document.body.appendChild(bokeh);
+  setTimeout(()=>bokeh.remove(),9000);
+},400);
+
+/* Reveal Surprise */
+function revealSurprise(){
+  document.getElementById("surpriseContent").classList.add("show");
+  document.getElementById("revealBtn").style.display="none";
+  document.body.classList.add("zoom");
+
+  /* Show final text after short delay */
+  setTimeout(()=>{
+    document.getElementById("finalText").classList.add("show");
+  },2000);
+}
+</script>
+
+</body>
+</html>

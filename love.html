@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Why I Love You ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  overflow:hidden;
+  font-family:"Times New Roman", Times, serif;
+  background: radial-gradient(circle at center,#14030c,#000);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:white;
+  position:relative;
+}
+
+/* Cinematic Glow Background */
+body::before{
+  content:"";
+  position:fixed;
+  width:200%;
+  height:200%;
+  background: radial-gradient(circle,#ff8fb1 0%,transparent 60%);
+  animation: glowMove 18s linear infinite;
+  opacity:0.15;
+}
+@keyframes glowMove{
+  0%{transform:translate(-20%,-20%)}
+  50%{transform:translate(10%,10%)}
+  100%{transform:translate(-20%,-20%)}
+}
+
+/* Soft Camera Zoom */
+body.zoom{
+  animation: cameraZoom 30s ease-in-out infinite alternate;
+}
+@keyframes cameraZoom{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.03);}
+  100%{transform:scale(1);}
+}
+
+/* Floating Hearts */
+.heart{
+  position:fixed;
+  font-size:16px;
+  opacity:0.6;
+  pointer-events:none;
+  animation: floatUp linear infinite;
+}
+@keyframes floatUp{
+  from{transform:translateY(100vh)}
+  to{transform:translateY(-10vh)}
+}
+
+/* Fireflies */
+.firefly{
+  position:fixed;
+  width:6px;
+  height:6px;
+  background:#ffd6e8;
+  border-radius:50%;
+  box-shadow:0 0 12px #ffd6e8;
+  animation: fly 8s linear infinite;
+  opacity:0.8;
+}
+@keyframes fly{
+  from{transform:translateY(100vh) translateX(0);}
+  to{transform:translateY(-10vh) translateX(20vw);}
+}
+
+/* Rose petals */
+.petal{
+  position:fixed;
+  font-size:18px;
+  animation: fall linear infinite;
+  pointer-events:none;
+}
+@keyframes fall{
+  from{ transform:translateY(-10vh) rotate(0deg); }
+  to{ transform:translateY(110vh) rotate(360deg); }
+}
+
+/* Bokeh Sparkles */
+.bokeh{
+  position:fixed;
+  width:8px;
+  height:8px;
+  background:radial-gradient(circle,#ffd6e8 0%,transparent 70%);
+  border-radius:50%;
+  pointer-events:none;
+  opacity:0.6;
+  animation: sparkle 6s linear infinite;
+}
+@keyframes sparkle{
+  0%{transform:translate(0,0) scale(1); opacity:0.2;}
+  50%{opacity:0.8; transform:translate(100px,50px) scale(1.5);}
+  100%{transform:translate(0,0) scale(1); opacity:0.2;}
+}
+
+/* Envelope */
+.envelope{
+  width:270px;
+  height:180px;
+  background: linear-gradient(45deg,#ffcad4,#ff9ebc);
+  border-radius:14px;
+  cursor:pointer;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:'Playfair Display',serif;
+  font-size:24px;
+  color:#6b1034;
+  font-weight:bold;
+  box-shadow:0 0 50px rgba(255,150,200,.7);
+  transition:.6s;
+  z-index:10;
+}
+.envelope:hover{
+  transform:scale(1.08);
+  box-shadow:0 0 70px rgba(255,150,200,1);
+}
+
+/* Letter */
+.letter{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) scale(.8);
+  width:88%;
+  max-width:650px;
+  height:70%;
+  background: rgba(0,0,0,.75);
+  backdrop-filter: blur(15px);
+  padding:45px;
+  border-radius:25px;
+  box-shadow:0 0 50px rgba(255,150,200,.5);
+  text-align:center;
+  display:none;
+  opacity:0;
+  transition:.8s;
+  overflow-y:auto;
+  z-index:10;
+}
+.letter.show{
+  display:block;
+  opacity:1;
+  transform:translate(-50%,-50%) scale(1);
+  scroll-behavior: smooth;
+}
+
+h1{
+  font-family:'Playfair Display',serif;
+  color:#ffb6d9;
+  font-size:32px;
+  text-shadow:0 0 12px rgba(255,182,193,0.7);
+}
+
+.text{
+  margin-top:18px;
+  font-size:25px;
+  line-height:2;
+  color:#ffd6e8;
+  min-height:160px;
+  text-shadow:0 0 6px rgba(255,182,193,0.5);
+}
+
+/* Each line fade-in */
+.text-line{
+  opacity:0;
+  transform:translateY(10px);
+  transition: opacity 2.5s ease, transform 2.5s ease; /* slower fade-in */
+}
+
+/* Next Button */
+.nextBtn{
+  margin-top:30px;
+  padding:15px 32px;
+  border:none;
+  border-radius:50px;
+  background:linear-gradient(45deg,#ffd6e8,#ff9ebc);
+  color:#5a1730;
+  font-weight:bold;
+  cursor:pointer;
+  font-size:16px;
+  display:none;
+  box-shadow:0 0 25px rgba(255,182,193,0.6);
+  transition:.3s;
+}
+.nextBtn:hover{
+  transform:scale(1.1);
+  box-shadow:0 0 35px rgba(255,182,193,1);
+}
+</style>
+</head>
+<body>
+
+<audio id="music" loop>
+<source src="media/song2.mp3" type="audio/mpeg">
+</audio>
+
+<div class="envelope" onclick="openLetter()">
+💌 Open My Heart
+</div>
+
+<div class="letter" id="letter">
+<h1>Why I Love You</h1>
+<div class="text" id="typingText"></div>
+
+<button class="nextBtn" id="nextBtn" onclick="nextPage()">Our Timeline ➝</button>
+</div>
+
+<script>
+/* Floating hearts */
+setInterval(()=>{
+  let heart=document.createElement("div");
+  heart.className="heart";
+  heart.innerText=["❤️","💖","💕","💘"][Math.floor(Math.random()*4)];
+  heart.style.left=Math.random()*95+"vw";
+  heart.style.animationDuration=4+Math.random()*3+"s";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),7000);
+},400);
+
+/* Fireflies */
+setInterval(()=>{
+  let fly=document.createElement("div");
+  fly.className="firefly";
+  fly.style.left=Math.random()*95+"vw";
+  fly.style.animationDuration=6+Math.random()*5+"s";
+  document.body.appendChild(fly);
+  setTimeout(()=>fly.remove(),9000);
+},500);
+
+/* Rose petals */
+setInterval(()=>{
+  let petal=document.createElement("div");
+  petal.className="petal";
+  petal.innerText="🌹";
+  petal.style.left=Math.random()*95+"vw";
+  petal.style.animationDuration=6+Math.random()*4+"s";
+  document.body.appendChild(petal);
+  setTimeout(()=>petal.remove(),10000);
+},700);
+
+/* Bokeh sparkles */
+setInterval(()=>{
+  let bokeh=document.createElement("div");
+  bokeh.className="bokeh";
+  bokeh.style.left=Math.random()*95+"vw";
+  bokeh.style.top=Math.random()*95+"vh";
+  bokeh.style.animationDuration=5+Math.random()*4+"s";
+  document.body.appendChild(bokeh);
+  setTimeout(()=>bokeh.remove(),9000);
+},400);
+
+/* Open Letter */
+function openLetter(){
+  document.querySelector(".envelope").style.display="none";
+  document.body.classList.add("zoom"); // soft camera zoom
+  let letter=document.getElementById("letter");
+  letter.classList.add("show");
+  let music=document.getElementById("music");
+  music.play().catch(()=>{});
+  startTyping();
+}
+
+/* Lines fade-in typing */
+const messageLines = [
+  "From the moment you walked into my life...",
+  "something inside me felt calm, safe, and complete.",
+  "","I love you not just for who you are...",
+  "but for how you make me feel when I'm with you.",
+  "","I love your smile that melts every bad day.",
+  "I love your voice that feels like home.",
+  "I love the way you care, protect, and love me.",
+  "","You are my peace...",
+  "my comfort...",
+  "my happiness...",
+  "my forever."
+];
+
+let lineIndex = 0;
+function startTyping(){
+  if(lineIndex < messageLines.length){
+    let lineText = messageLines[lineIndex];
+    let span = document.createElement('div');
+    span.className = "text-line";
+    span.innerText = lineText;
+    document.getElementById("typingText").appendChild(span);
+    setTimeout(()=>{ span.style.opacity=1; span.style.transform="translateY(0)"; },50);
+    lineIndex++;
+    setTimeout(startTyping, 2000); // SLOWER cinematic fade-in per line
+  }else{
+    document.getElementById("nextBtn").style.display="inline-block";
+  }
+}
+
+function nextPage(){
+  window.location.href="timeline.html";
+}
+</script>
+
+</body>
+</html>

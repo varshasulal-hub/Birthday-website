@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Our Journey Timeline 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background:radial-gradient(circle at center,#1a0510,#000);
+  color:white;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:18px;
+  overflow-x:hidden;
+  min-height:100vh;
+  position:relative;
+}
+
+.grain{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:url('https://grainy-gradients.vercel.app/noise.svg');
+  opacity:0.08;
+  pointer-events:none;
+  z-index:1;
+}
+
+.heart{
+  position:absolute;
+  font-size:13px;
+  pointer-events:none;
+  opacity:0.7;
+  animation:floatUp linear infinite;
+}
+@keyframes floatUp{
+  0%{transform:translateY(100vh);opacity:0;}
+  10%{opacity:0.8;}
+  100%{transform:translateY(-10vh);opacity:0;}
+}
+
+h1{
+  font-family:'Playfair Display',serif;
+  font-size:1.7rem;
+  color:#ffb6d9;
+  text-align:center;
+  margin-bottom:30px;
+  text-shadow:0 0 10px rgba(255,182,193,0.7);
+}
+
+.timeline{
+  position:relative;
+  max-width:520px;
+  width:100%;
+  padding-left:32px;
+  margin-bottom:35px;
+}
+
+.timeline::before{
+  content:'';
+  position:absolute;
+  left:16px;
+  top:0;
+  bottom:0;
+  width:3px;
+  background:linear-gradient(180deg,#ff5fa2,#ffb6d9);
+  border-radius:2px;
+  box-shadow:0 0 10px rgba(255,105,180,0.6);
+}
+
+.timeline-item{
+  position:relative;
+  margin:15px 0;
+  padding:12px 14px 12px 42px;
+  background:rgba(0,0,0,0.55);
+  border-radius:10px;
+  border:1px solid rgba(255,182,193,0.35);
+  backdrop-filter:blur(6px);
+  box-shadow:0 0 10px rgba(255,182,193,0.25),0 0 20px rgba(255,105,180,0.12);
+  opacity:0;
+  transform:translateY(25px);
+  transition:all 0.8s ease;
+}
+.timeline-item.show{
+  opacity:1;
+  transform:translateY(0);
+}
+.timeline-item::before{
+  content:'💖';
+  position:absolute;
+  left:-3px;
+  top:12px;
+  font-size:16px;
+  width:24px;
+  height:24px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:white;
+  box-shadow:0 0 6px rgba(255,182,193,0.8),0 0 14px rgba(255,105,180,0.5);
+}
+.timeline-item h3{margin:0 0 3px 0;font-size:0.98rem;color:#ffd6e8;}
+.timeline-item p{margin:0;font-size:0.85rem;color:#ffc2d1;}
+
+#continueBtn{
+  margin-top:18px;
+  padding:11px 26px;
+  font-size:.9rem;
+  border:none;
+  border-radius:40px;
+  background:linear-gradient(45deg,#ffd6e8,#ff9ebc);
+  color:#5a1730;
+  cursor:pointer;
+  font-weight:600;
+  box-shadow:0 0 18px rgba(255,182,193,0.6);
+  transition:.3s;
+}
+#continueBtn:hover{
+  transform:scale(1.08);
+  box-shadow:0 0 28px rgba(255,182,193,0.9);
+}
+
+/* START BUTTON */
+#startBtn{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  font-size:1.2rem;
+  padding:16px 30px;
+  border-radius:25px;
+  border:none;
+  background:linear-gradient(45deg,#ff5fa2,#ffb6d9);
+  color:white;
+  cursor:pointer;
+  z-index:100;
+  box-shadow:0 0 18px rgba(255,182,193,0.6),0 0 28px rgba(255,105,180,0.8);
+  animation:pulse 1.5s infinite alternate;
+}
+#startBtn:hover{
+  transform:translate(-50%,-50%) scale(1.1);
+  box-shadow:0 0 28px rgba(255,182,193,0.9),0 0 38px rgba(255,105,180,1);
+}
+@keyframes pulse{
+  0%{transform:translate(-50%,-50%) scale(1);}
+  100%{transform:translate(-50%,-50%) scale(1.1);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="grain"></div>
+
+<h1>🌸 Our Journey Together 🌸</h1>
+
+<!-- Start Button -->
+<button id="startBtn">Tap on to start 💖</button>
+
+<!-- Background music -->
+<audio id="bgMusic" loop preload="auto">
+  <source src="media/song3.mp3" type="audio/mpeg">
+</audio>
+
+<div class="timeline" id="timeline">
+  <div class="timeline-item"><h3>Feb 6, 2022</h3><p>The day you proposed me 😜😌</p></div>
+  <div class="timeline-item"><h3>Feb 10, 2022</h3><p>The day our love begins 🥹😘</p></div>
+  <div class="timeline-item"><h3>Aug 10, 2024</h3><p>Our first date 🫣 The start of many happy memories 💞</p></div>
+  <div class="timeline-item"><h3>February 10, 2026</h3><p>Five year anniversary 🎉 I love you more every day 💖</p></div>
+  <div class="timeline-item"><h3>Current Day 🌸</h3><p>Celebrating YOUR Birthday 🎂 Happy Birthday, my love! 💕</p></div>
+</div>
+
+<button id="continueBtn" onclick="goNext()">▶ Next Surprise</button>
+
+<script>
+/* floating hearts */
+function createHearts(){
+  const heart=document.createElement('div');
+  heart.className='heart';
+  const hearts=["❤️","💖","💕","💘","💗"];
+  heart.innerText=hearts[Math.floor(Math.random()*hearts.length)];
+  heart.style.left=Math.random()*95+'vw';
+  heart.style.top=Math.random()*90+'vh';
+  heart.style.fontSize=11+Math.random()*9+'px';
+  heart.style.animationDuration=4+Math.random()*3+'s';
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),7000);
+}
+setInterval(createHearts,400);
+
+function goNext(){ window.location.href="promisepage.html"; }
+
+/* Start journey button */
+const startBtn = document.getElementById("startBtn");
+const timeline = document.getElementById("timeline");
+const music = document.getElementById("bgMusic");
+
+startBtn.addEventListener("click", () => {
+  startBtn.style.display = "none"; // remove button
+
+  // Start music
+  music.volume = 0.9;
+  music.play().catch(()=>{});
+
+  // Reveal timeline items sequentially
+  const items = document.querySelectorAll(".timeline-item");
+  let delay = 3000;
+  items.forEach((item,index)=>{
+    setTimeout(()=>{ item.classList.add("show"); }, (index+1)*delay );
+  });
+});
+</script>
+
+</body>
+</html>

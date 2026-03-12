@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Birthday Film Premiere 🎬</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+margin:0;
+height:100vh;
+overflow:hidden;
+display:flex;
+justify-content:center;
+align-items:center;
+font-family:'Poppins',sans-serif;
+background:radial-gradient(circle at center,#1a0510,#000);
+color:white;
+}
+
+/* START SCREEN */
+
+.startScreen{
+position:absolute;
+width:100%;
+height:100%;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+background:black;
+z-index:10;
+}
+
+.musicBtn{
+padding:18px 40px;
+font-size:1.4rem;
+border:none;
+border-radius:50px;
+cursor:pointer;
+background:linear-gradient(45deg,#ffd6e8,#ff9ebc);
+color:#5a1730;
+font-weight:600;
+box-shadow:0 0 25px rgba(255,182,193,0.6);
+transition:0.4s;
+}
+
+.musicBtn:hover{
+transform:scale(1.1);
+}
+
+/* MAIN PAGE */
+
+.container{
+text-align:center;
+z-index:2;
+display:none;
+animation:fadeScene 3s ease;
+}
+
+@keyframes fadeScene{
+from{ opacity:0; transform:scale(1.1);}
+to{ opacity:1; transform:scale(1);}
+}
+
+.title{
+font-family:'Playfair Display', serif;
+font-size:3rem;
+letter-spacing:2px;
+opacity:0;
+animation:titleReveal 3s forwards;
+animation-delay:1s;
+}
+
+@keyframes titleReveal{
+to{ opacity:1; }
+}
+
+.subtitle{
+margin-top:20px;
+font-size:1.3rem;
+color:#ffd6e8;
+opacity:0;
+animation:subtitleReveal 3s forwards;
+animation-delay:3s;
+}
+
+@keyframes subtitleReveal{
+to{ opacity:1; }
+}
+
+.tagline{
+margin-top:20px;
+font-style:italic;
+color:#ffc2d1;
+opacity:0;
+animation:subtitleReveal 3s forwards;
+animation-delay:5s;
+}
+
+.line{
+width:80px;
+height:3px;
+background:#ffd6e8;
+margin:30px auto;
+opacity:0;
+animation:subtitleReveal 2s forwards;
+animation-delay:4s;
+}
+
+.startBtn{
+margin-top:40px;
+padding:16px 40px;
+border:none;
+border-radius:50px;
+font-size:1.2rem;
+cursor:pointer;
+background:linear-gradient(45deg,#ffd6e8,#ff9ebc);
+color:#5a1730;
+font-weight:600;
+opacity:0;
+transition:0.4s;
+animation:subtitleReveal 3s forwards;
+animation-delay:6s;
+box-shadow:0 0 25px rgba(255,182,193,0.6);
+}
+
+.startBtn:hover{
+transform:scale(1.1);
+}
+
+.particle{
+position:absolute;
+width:4px;
+height:4px;
+background:white;
+border-radius:50%;
+opacity:0.4;
+animation:floatParticle linear infinite;
+}
+
+@keyframes floatParticle{
+from{ transform:translateY(100vh);}
+to{ transform:translateY(-10vh);}
+}
+
+.grain{
+position:absolute;
+width:100%;
+height:100%;
+background:url('https://grainy-gradients.vercel.app/noise.svg');
+opacity:0.08;
+pointer-events:none;
+z-index:1;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- START MUSIC SCREEN -->
+
+<div class="startScreen" id="startScreen">
+<button class="musicBtn" onclick="startExperience()">
+🎵 Play Music
+</button>
+</div>
+
+<div class="grain"></div>
+
+<!-- MAIN CONTENT -->
+
+<div class="container" id="mainContent">
+
+<div class="title">🎂 Birthday Celebration 🎂</div>
+
+<div class="line"></div>
+
+<div class="subtitle">
+Celebrating the birthday of my favourite person ❤️
+</div>
+
+<div class="tagline">
+Starring — The Most Special person in My World 🌹
+</div>
+
+<button class="startBtn" onclick="startStory()">
+▶ Begin The Celebration
+</button>
+
+</div>
+
+<audio id="bgMusic" loop>
+<source src="media/Vid21.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+/* start music */
+
+function startExperience(){
+
+const music=document.getElementById("bgMusic");
+
+music.volume=0.6;
+music.play();
+
+document.getElementById("startScreen").style.display="none";
+document.getElementById("mainContent").style.display="block";
+
+}
+
+/* floating particles */
+
+function createParticle(){
+const p=document.createElement("div");
+p.className="particle";
+p.style.left=Math.random()*100+"vw";
+p.style.animationDuration=6+Math.random()*5+"s";
+document.body.appendChild(p);
+setTimeout(()=>p.remove(),11000);
+}
+
+setInterval(createParticle,200);
+
+/* transition */
+
+function startStory(){
+
+document.body.style.opacity="0";
+
+setTimeout(()=>{
+window.location.href="letter.html";
+},1500);
+
+}
+
+</script>
+
+</body>
+</html>

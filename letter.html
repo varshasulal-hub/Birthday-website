@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Your Birthday Letter ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+margin:0;
+height:100vh;
+overflow:hidden;
+font-family:'Poppins',sans-serif;
+background:radial-gradient(circle at center,#1a0510,#000);
+display:flex;
+justify-content:center;
+align-items:center;
+color:white;
+}
+
+body::after{
+content:"";
+position:absolute;
+width:100%;
+height:100%;
+background:radial-gradient(circle,transparent 40%,rgba(0,0,0,0.85));
+pointer-events:none;
+}
+
+.grain{
+position:absolute;
+width:100%;
+height:100%;
+background:url('https://grainy-gradients.vercel.app/noise.svg');
+opacity:0.08;
+}
+
+.container{
+width:90%;
+max-width:700px;
+height:80vh;
+overflow-y:auto;
+perspective:1200px;
+}
+
+.paperWrapper{
+position:relative;
+transform-style:preserve-3d;
+}
+
+.letter{
+background:linear-gradient(to bottom,#1a0b12,#000);
+padding:30px;
+border-radius:20px;
+font-family:'Playfair Display', serif;
+font-size:1.3rem;
+line-height:1.8;
+color:#ffd6e8;
+box-shadow:0 0 40px rgba(255,182,193,0.4);
+transform-origin:top;
+transform:rotateX(-90deg);
+animation:openLetter 1.5s ease forwards;
+position:relative;
+}
+
+.letter::before{
+content:"";
+position:absolute;
+top:-10px;
+left:0;
+width:100%;
+height:30px;
+background:linear-gradient(to bottom,rgba(0,0,0,0.6),transparent);
+opacity:0;
+animation:shadowPeel 1.5s ease forwards;
+}
+
+@keyframes openLetter{
+to{ transform:rotateX(0deg); }
+}
+
+@keyframes shadowPeel{
+to{ opacity:1; }
+}
+
+.continueBtn{
+margin-top:30px;
+padding:15px 35px;
+border:none;
+border-radius:50px;
+font-size:1.1rem;
+background:linear-gradient(45deg,#ffd6e8,#ff9ebc);
+color:#5a1730;
+cursor:pointer;
+opacity:0;
+transition:0.4s;
+}
+
+.continueBtn.show{
+opacity:1;
+}
+
+.continueBtn:hover{
+transform:scale(1.1);
+}
+
+.heart{
+position:absolute;
+font-size:24px;
+animation:floatUp linear infinite;
+pointer-events:none;
+}
+
+@keyframes floatUp{
+0%{ transform:translateY(100vh); opacity:0;}
+10%{opacity:1;}
+100%{ transform:translateY(-20vh); opacity:0;}
+}
+
+#overlay{
+  position:fixed;
+  inset:0;
+  background: rgba(0,0,0,0.85);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+}
+
+#overlay button{
+  font-family:'Playfair Display', serif;
+  font-size:1.6rem;
+  color:#fff;
+  background: linear-gradient(135deg, #ff9ebc, #ffd6e8);
+  border:none;
+  padding:25px 50px;
+  border-radius:50px;
+  cursor:pointer;
+  box-shadow: 0 10px 30px rgba(255,182,193,0.6), 0 0 60px rgba(255,105,180,0.4) inset;
+  text-align:center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#overlay button:hover{
+  transform: scale(1.05);
+  box-shadow: 0 15px 40px rgba(255,182,193,0.8), 0 0 80px rgba(255,105,180,0.6) inset;
+}
+
+</style>
+</head>
+
+<body>
+
+<audio id="bgMusic" loop>
+<source src="media/Love.mp3" type="audio/mpeg">
+</audio>
+
+<div id="overlay">
+  <button id="openLetterBtn">Tap to open your birthday letter 🎁</button>
+</div>
+
+<div class="grain"></div>
+
+<div class="container">
+
+<div class="paperWrapper">
+<div class="letter" id="letterText"></div>
+</div>
+
+<button class="continueBtn" id="nextBtn" onclick="goCake()">
+▶ Next Surprise
+</button>
+
+</div>
+
+<script>
+
+/* floating hearts */
+
+function createHeart(){
+const heart=document.createElement("div");
+heart.className="heart";
+const hearts=["❤️","💖","💕","💘","💗"];
+heart.innerText=hearts[Math.floor(Math.random()*hearts.length)];
+heart.style.left=Math.random()*90+"vw";
+heart.style.fontSize=14+Math.random()*20+"px";
+heart.style.animationDuration=4+Math.random()*3+"s";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),5000);
+}
+
+setInterval(createHeart,300);
+
+
+/* letter text */
+
+const lines=[
+"💌 To My Special Person,",
+"Happy Birthday to the most amazing boy in the world! 🥰",
+"Today is all about you, and I want you to know how much you mean to me. Every moment with you feels like magic, and your smile lights up my world. 🌹",
+"Thank you for being mine, for all your love, laughter, and warmth. I wish I could be there to celebrate every second with you, but this little surprise is my way of sending you all my love today. 💖",
+"Get ready… your birthday celebration is just beginning! 🎂"
+];
+
+const letter=document.getElementById("letterText");
+const btn=document.getElementById("nextBtn");
+const container=document.querySelector(".container");
+
+
+/* smoother slower typing */
+
+function showSentence(i){
+
+if(i>=lines.length){
+btn.classList.add("show");
+return;
+}
+
+let words=lines[i].split(" ");
+let w=0;
+
+function typeWord(){
+
+if(w<words.length){
+
+let span=document.createElement("span");
+span.innerText=words[w]+" ";
+span.style.opacity="0";
+span.style.transform="translateY(6px)";
+span.style.transition="0.5s";
+
+letter.appendChild(span);
+
+setTimeout(()=>{
+span.style.opacity="1";
+span.style.transform="translateY(0)";
+},50);
+
+w++;
+
+container.scrollTop=container.scrollHeight;
+
+/* slower typing speed */
+
+setTimeout(typeWord,320);
+
+}else{
+
+letter.innerHTML+="<br><br>";
+setTimeout(()=>showSentence(i+1),500);
+
+}
+
+}
+
+typeWord();
+}
+
+
+/* overlay click starts music + letter */
+
+document.getElementById("openLetterBtn").onclick = () => {
+    const music = document.getElementById("bgMusic");
+    music.volume = 0.6;
+    music.play().catch(() => {});
+
+    document.getElementById("overlay").style.display = "none";
+
+    setTimeout(() => showSentence(0), 800);
+};
+
+
+function goCake(){
+
+const music=document.getElementById("bgMusic");
+
+music.pause();
+
+window.location.href="memories.html";
+
+}
+
+</script>
+
+</body>
+</html>

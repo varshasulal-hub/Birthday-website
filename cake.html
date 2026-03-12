@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<title>Love Cake Surprise</title>
+<style>
+/* ===== START SCREEN ROMANCE ===== */
+
+#playMusicBtn{
+    display:block;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    padding:18px 35px;
+    font-size:20px;
+    border:none;
+    border-radius:35px;
+    background:linear-gradient(45deg,#ff4d88,#ff85b3);
+    color:white;
+    cursor:pointer;
+    z-index:50;
+    box-shadow:0 0 25px #ff99cc,0 0 45px #ff66aa;
+    animation: romanticPulse 2s infinite;
+}
+
+@keyframes romanticPulse{
+    0%{ transform:translate(-50%,-50%) scale(1); }
+    50%{ transform:translate(-50%,-50%) scale(1.1); }
+    100%{ transform:translate(-50%,-50%) scale(1); }
+}
+
+/* Floating hearts BEFORE music */
+.startHeart{
+    position:absolute;
+    font-size:20px;
+    pointer-events:none;
+    opacity:0.8;
+    animation:startHeartFloat 6s linear forwards;
+}
+
+@keyframes startHeartFloat{
+    0%{
+        transform:translateY(100vh) scale(0.5);
+        opacity:0;
+    }
+    20%{opacity:0.8;}
+    100%{
+        transform:translateY(-20vh) scale(1.2);
+        opacity:0;
+    }
+}
+
+/* Cute teasing text */
+#startLoveMsg{
+    position:absolute;
+    top:63%;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:20px;
+    color:#ffd6ea;
+    animation:loveFade 3s infinite;
+    z-index:50;
+}
+
+@keyframes loveFade{
+    0%{opacity:0;}
+    50%{opacity:1;}
+    100%{opacity:0;}
+}
+
+/* ---------- REMOVE WHITE FLASH ---------- */
+html, body {
+    margin:0;
+    padding:0;
+    height:100%;
+    overflow:hidden;
+    background:#7a003c;
+}
+
+/* ---------- MAIN BACKGROUND ---------- */
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #7a003c, #b30059, #ff1a75, #99004d);
+    background-size: 400% 400%;
+    animation: bgShift 20s ease infinite;
+    color: #ffe4ec;
+}
+
+/* Background movement */
+@keyframes bgShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ---------- ROMANTIC FLOATING PARTICLES ---------- */
+.particle{
+    position:absolute;
+    font-size:18px;
+    opacity:0.7;
+    pointer-events:none;
+    animation: floatParticle linear infinite;
+}
+
+@keyframes floatParticle{
+    0%{
+        transform: translateY(100vh) scale(0.6);
+        opacity:0;
+    }
+    10%{ opacity:0.8; }
+    100%{
+        transform: translateY(-20vh) scale(1);
+        opacity:0;
+    }
+}
+
+/* ---------- LOVE AURA BEHIND CAKE ---------- */
+#cakeLayer::before{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:65%;
+    transform:translate(-50%,-50%);
+    width:450px;
+    height:300px;
+    border-radius:50%;
+    background: radial-gradient(circle, rgba(255,105,180,0.3), transparent 80%);
+    filter: blur(90px);
+    z-index:-1;
+}
+
+/* GLOWING TITLE */
+.title{
+    position:absolute;
+    top:10px;
+    width:100%;
+    font-size:40px;
+    font-family:"Times New Roman", Times, serif;
+    font-weight:bold;
+    color:rgb(95, 41, 41);
+    text-align:center;
+    z-index:20;
+    letter-spacing:3px;
+    opacity:0;
+    transform:translateY(-30px) scale(0.8);
+    transition: all 2s ease;
+    text-shadow: 0 0 12px rgba(255,255,255,0.8),
+                 0 0 25px rgba(255,105,180,0.6);
+    animation: glowPulse 2.5s infinite alternate;
+}
+
+@keyframes glowPulse {
+  0% { text-shadow: 0 0 12px rgba(255,255,255,0.8), 0 0 25px rgba(255,105,180,0.6);}
+  100% { text-shadow: 0 0 18px #fff, 0 0 45px #ff85b3, 0 0 60px #ff4d88; }
+}
+
+/* LAYERS */
+#balloonLayer,#cakeLayer,#fireworksLayer{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background: transparent;
+}
+#balloonLayer{z-index:1;pointer-events:none;}
+#cakeLayer{z-index:5;}
+#fireworksLayer{z-index:3;pointer-events:none;}
+
+/* BUTTONS */
+.buttons{
+    position:absolute;
+    bottom:40px;
+    width:100%;
+    z-index:25;
+    text-align:center;
+}
+button{
+    padding:12px 22px;
+    margin:8px;
+    font-size:16px;
+    border:none;
+    border-radius:20px;
+    background:#ff5fa2;
+    color:white;
+    cursor:pointer;
+    display:none;
+}
+
+/* SONG MESSAGE */
+#songMsg{
+    position:absolute;
+    top:40%;
+    left:50%;
+    transform:translate(-50%,-50%) scale(0);
+    color:#ffb6d9;
+    font-size:24px;
+    text-align:center;
+    z-index:50;
+    transition:transform 0.8s ease, opacity 0.8s ease;
+    opacity:0;
+}
+
+/* LIGHTS */
+.light{
+    position:absolute;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:yellow;
+    box-shadow:0 0 20px yellow;
+    animation:blink 1.2s infinite alternate;
+}
+@keyframes blink{from{opacity:0.3} to{opacity:1}}
+
+/* BALLOONS */
+.balloon{
+    position:absolute;
+    font-size:40px;
+    animation-fill-mode:forwards;
+}
+@keyframes rise{0%{transform:translateY(100vh);opacity:0;}10%{opacity:1;}100%{transform:translateY(-150vh);}}
+
+/* CAKE */
+.cake{
+    position:absolute;
+    left:50%;
+    top:65%;
+    transform:translate(-30%,-30%);
+    display:none;
+}
+.layer2{width:220px;height:90px;background:white;border-radius:12px;position:relative;transition:background 2s ease;}
+.layer1{width:160px;height:70px;background:white;border-radius:12px;position:absolute;left:30px;top:-60px;transition:background 2s ease;}
+.cream-top{position:relative;width:100%;height:18px;background:#fff5f7;border-radius:12px;display:none;}
+.drip{position:absolute;width:12px;border-radius:50%;background:#fff5f7;top:100%;}
+.candle{position:absolute;left:50%;transform:translateX(-50%);top:-110px;width:10px;height:45px;background:white;display:none;}
+.flame{width:14px;height:14px;background:orange;border-radius:50%;position:absolute;top:-14px;left:-2px;display:none;animation:flicker 0.3s infinite alternate;}
+@keyframes flicker{from{transform:scale(1)} to{transform:scale(1.2)}}
+
+/* KNIFE */
+#knife{position:absolute;left:46%;top:45%;font-size:50px;display:none;}
+
+/* SLICE */
+.slice{position:absolute;left:78%;top:40%;width:60px;height:50px;display:none;z-index:10;opacity:0;transform:scale(0.6);transition: top 1.6s ease, opacity 0.8s ease, transform 0.8s ease;}
+.slice-cake{width:60px;height:60px;background:#c68642;clip-path:polygon(0 0,100% 50%,0 100%);}
+.slice-cream-middle{position:absolute;width:50px;height:7px;background:#fff5f7;left:5px;top:27px;clip-path:polygon(0 0,100% 50%,0 100%);}
+.plate{position:absolute;width:85px;height:12px;background:#eee;border-radius:50%;bottom:-16px;left:-10px;}
+.utensils{position:absolute;bottom:-28px;left:70px;font-size:40px;}
+.sliceMsg{position:absolute;left:75%;top:50%;color:#ffb6d9;font-size:20px;opacity:0;transform:translateY(20px);transition: opacity 1.2s ease, transform 1.2s ease;display:block;pointer-events:none;}
+
+/* POPUP */
+.popup{position:fixed;top:20%;left:50%;transform:translate(-50%,-50%) scale(0);width:300px;padding:20px;background:#ffb6d9;color:black;font-size:22px;border-radius:20px;text-align:center;z-index:30;transition:transform 1s ease, opacity 1s ease;}
+
+/* FIREWORK */
+.firework{position:absolute;width:5px;height:5px;border-radius:50%;animation:explode 1s forwards;}
+@keyframes explode{from{transform:scale(1);opacity:1;} to{transform:scale(15);opacity:0;}}
+
+/* CINEMATIC HEARTS */
+.cinematicHeart{
+  position:absolute;
+  font-size:18px;
+  pointer-events:none;
+  opacity:0.7;
+  animation:floatCHeart linear infinite;
+  z-index:0;
+}
+@keyframes floatCHeart{
+  0%{transform:translateY(100vh) scale(0.5); opacity:0;}
+  10%{opacity:0.8;}
+  100%{transform:translateY(-20vh) scale(1); opacity:0;}
+}
+
+/* SPARKLES */
+.sparkle{
+  position:absolute;
+  width:4px;
+  height:4px;
+  border-radius:50%;
+  background:white;
+  opacity:0.6;
+  pointer-events:none;
+  animation:sparkleAnim linear infinite;
+  z-index:0;
+}
+@keyframes sparkleAnim{
+  0%{transform:translateY(100vh) scale(0.5);opacity:0;}
+  10%{opacity:0.7;}
+  100%{transform:translateY(-10vh) scale(1);opacity:0;}
+}
+
+/* ===== NEXT SURPRISE BUTTON ===== */
+#nextSurpriseBtn{
+    position:absolute;
+    bottom:15px;
+    left:50%;
+    transform:translateX(-50%);
+    padding:15px 35px;
+    font-size:18px;
+    border:none;
+    border-radius:35px;
+    background:linear-gradient(45deg,#ff4d88,#ff85b3);
+    color:white;
+    cursor:pointer;
+    z-index:50;
+    box-shadow:0 0 25px #ff99cc,0 0 45px #ff66aa;
+    display:none;
+}
+#nextSurpriseBtn:hover{
+    transform:translateX(-50%) scale(1.1);
+    box-shadow:0 0 35px #ff99cc,0 0 55px #ff66aa;
+}
+</style>
+</head>
+<body>
+
+<audio id="birthdaySong" src="media/song.mp3.mp3" loop></audio>
+
+<!-- TITLE -->
+<div class="title" id="titleText">HAPPIEST BIRTHDAY MY LOVE ❤️</div>
+
+<!-- PLAY BUTTON -->
+<button id="playMusicBtn">Play Music 🎵</button>
+<div id="startLoveMsg">Tap to unlock your surprise 💖</div>
+<div id="songMsg">I hope you will remember this song 😌 (illengil idi aan)</div>
+
+<div id="balloonLayer"></div>
+<div id="lights"></div>
+<div id="fireworksLayer"></div>
+
+<div id="cakeLayer">
+<div class="cake" id="cake">
+    <div class="layer2"><div class="cream-top" id="cream2"></div></div>
+    <div class="layer1"><div class="cream-top" id="cream1"></div></div>
+    <div class="candle" id="candle"><div class="flame" id="flame"></div></div>
+</div>
+
+<div id="knife">🔪</div>
+
+<div class="slice" id="slice">
+    <div class="slice-cake"></div>
+    <div class="slice-cream-middle"></div>
+    <div class="plate"></div>
+    <div class="utensils">🍴</div>
+</div>
+
+<div class="sliceMsg" id="sliceMsg">This slice is specially for you ❤️</div>
+<div class="popup" id="popup">❤️ I Love You So Much! ❤️</div>
+</div>
+
+<div class="buttons">
+<button id="b1" onclick="lights()">Lights</button>
+<button id="b2" onclick="balloons()">Balloons</button>
+<button id="b3" onclick="showCake()">Cake</button>
+<button id="b4" onclick="decorate()">Decorate</button>
+<button id="b5" onclick="showCandle()">Candle</button>
+<button id="b6" onclick="blow()">Blow Candle</button>
+<button id="b7" onclick="cutCake()">Cut Cake</button>
+</div>
+
+<!-- NEXT SURPRISE BUTTON -->
+<button id="nextSurpriseBtn" onclick="location.href='love.html'">Next Surprise ➝</button>
+
+<script>
+const music = document.getElementById("birthdaySong");
+const playBtn = document.getElementById("playMusicBtn");
+const songMsg = document.getElementById("songMsg");
+const titleText = document.getElementById("titleText");
+const startMsg = document.getElementById("startLoveMsg");
+// Set initial message
+startMsg.textContent = "Tap to unlock your surprise 💖";
+
+// After 3 seconds, change to the next message
+setTimeout(() => {
+    if (playBtn.style.display !== "none") { 
+        startMsg.textContent = "Only Ramutta is allowed to click ❤️";
+    }
+}, 3000);
+
+/* Floating hearts before music starts */
+function createStartHearts(){
+    const hearts = ["❤️","💖","💕","💘","💗"];
+    setInterval(()=>{
+        if(playBtn.style.display === "none") return;
+        let h = document.createElement("div");
+        h.className = "startHeart";
+        h.innerHTML = hearts[Math.floor(Math.random()*hearts.length)];
+        h.style.left = Math.random()*100 + "vw";
+        document.body.appendChild(h);
+        setTimeout(()=>h.remove(),6000);
+    },400);
+}
+createStartHearts();
+
+/* Changing teasing message */
+const startMsgs = [
+  "Tap to unlock your surprise 💖",
+  "Only Ramutta is allowed to click ❤️"
+];
+let startIndex = 0;
+setInterval(()=>{
+    if(playBtn.style.display === "none") return;
+    startMsg.textContent = startMsgs[startIndex];
+    startIndex = (startIndex + 1) % startMsgs.length;
+},2500);
+
+/* PLAY BUTTON CLICK */
+playBtn.addEventListener("click", () => {
+    music.play();
+    playBtn.style.display = "none";
+    startMsg.style.display = "none";
+
+    songMsg.style.opacity = 1;
+    songMsg.style.transform = "translate(-50%,-50%) scale(1)";
+
+    setTimeout(()=>{
+        songMsg.style.opacity = 0;
+        songMsg.style.transform = "translate(-50%,-50%) scale(0)";
+
+        titleText.style.opacity = 1;
+        titleText.style.transform = "translateY(0) scale(1)";
+        titleText.style.textShadow = "0 0 15px #fff, 0 0 25px #aaa";
+
+        setTimeout(()=>{ 
+            document.getElementById("b1").style.display = "inline-block"; 
+        },1500);
+    },3000);
+    
+    // Show Next Surprise button after full cake sequence is done
+    setTimeout(()=>{
+        document.getElementById("nextSurpriseBtn").style.display = "inline-block";
+    }, 22000); // Adjust timing as needed
+});
+
+/* CINEMATIC HEARTS & SPARKLES */
+function createCinematicHeart(){
+    const hearts = ["❤️","💖","💕","💘","💗"];
+    const h = document.createElement("div");
+    h.className = "cinematicHeart";
+    h.innerHTML = hearts[Math.floor(Math.random()*hearts.length)];
+    h.style.left = Math.random()*100 + "vw";
+    h.style.fontSize = 12 + Math.random()*16 + "px";
+    h.style.animationDuration = 5 + Math.random()*5 + "s";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),10000);
+}
+setInterval(createCinematicHeart, 400);
+
+function createSparkle(){
+    const s = document.createElement("div");
+    s.className = "sparkle";
+    s.style.left = Math.random()*100 + "vw";
+    s.style.animationDuration = 5 + Math.random()*5 + "s";
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),10000);
+}
+setInterval(createSparkle, 350);
+
+/* ORIGINAL FUNCTIONS */
+function next(id){ document.getElementById(id).style.display="inline-block"; }
+function lights(){let layer=document.getElementById("lights");for(let i=0;i<60;i++){let l=document.createElement("div");l.className="light";l.style.left=Math.random()*100+"vw";l.style.top=Math.random()*50+"vh";layer.appendChild(l);}next("b2");}
+function balloons(){let layer=document.getElementById("balloonLayer");let types=["❤️","🎈","💜","💙","💛","💚","💖","🤍"];for(let i=0;i<200;i++){setTimeout(()=>{let b=document.createElement("div");b.className="balloon";b.innerHTML=types[Math.floor(Math.random()*types.length)];b.style.left=Math.random()*90+"vw";b.style.animation=`rise ${20+Math.random()*5}s linear forwards`;layer.appendChild(b);},i*120);}next("b3");}
+function showCake(){let cake=document.getElementById("cake");cake.style.display="block";cake.animate([{transform:"translate(-50%,200px) scale(0.5)",opacity:0},{transform:"translate(-50%,-50%) scale(1)",opacity:1}],{duration:2200,fill:"forwards"});next("b4");}
+function decorate(){document.querySelector(".layer1").style.background="#c68642";document.querySelector(".layer2").style.background="#c68642";cream1.style.display="block";cream2.style.display="block";function createDrips(layer,count){let spacing=layer.offsetWidth/count;for(let i=0;i<count;i++){let d=document.createElement("div");d.className="drip";d.style.left=(i*spacing+spacing/4)+"px";let finalHeight=18+Math.random()*25;d.style.height="0px";layer.appendChild(d);setTimeout(()=>{d.animate([{height:"0px",opacity:0},{height:finalHeight+"px",opacity:1}],{duration:900,fill:"forwards"});},i*120);}}createDrips(cream2,10);createDrips(cream1,7);next("b5");}
+function showCandle(){candle.style.display="block";candle.animate([{transform:"translateX(-50%) translateY(60px)",opacity:0},{transform:"translateX(-50%) translateY(0)",opacity:1}],{duration:800,fill:"forwards"});setTimeout(()=>{flame.style.display="block";flame.animate([{transform:"scale(0)",opacity:0},{transform:"scale(1)",opacity:1}],{duration:900,fill:"forwards"});},900);next("b6");}
+function blow(){flame.style.display="none";next("b7");}
+function firework(){for(let i=0;i<40;i++){let f=document.createElement("div");f.className="firework";f.style.left=Math.random()*100+"vw";f.style.top=Math.random()*60+"vh";f.style.background=`hsl(${Math.random()*360},100%,50%)`;fireworksLayer.appendChild(f);setTimeout(()=>f.remove(),1200);}}
+function cutCake(){
+let knife=document.getElementById("knife");
+let slice=document.getElementById("slice");
+let sliceMsg=document.getElementById("sliceMsg");
+let popup=document.getElementById("popup");
+
+knife.style.display="block";
+
+knife.animate(
+[{transform:"scale(0) rotate(-90deg)"},{transform:"scale(1) rotate(0)"}],
+{duration:800,fill:"forwards"}
+);
+
+setTimeout(()=>{
+knife.animate(
+[{transform:"translateY(0)"},{transform:"translateY(80px)"}],
+{duration:1200,fill:"forwards"}
+);
+},800);
+
+setTimeout(()=>{
+knife.remove();
+slice.style.display="block";
+
+setTimeout(()=>{
+slice.style.opacity="1";
+slice.style.transform="scale(1)";
+setTimeout(()=>{
+slice.style.top="55%";
+},200);
+},50);
+
+setTimeout(()=>{
+sliceMsg.style.opacity="1";
+sliceMsg.style.transform="translateY(0)";
+},500);
+
+firework();
+
+popup.style.transition="transform 1s ease, opacity 1s ease";
+popup.style.transform="translate(-50%,-50%) scale(1)";
+popup.style.opacity="1";
+
+setTimeout(()=>{
+popup.style.transform="translate(-50%,-50%) scale(0)";
+popup.style.opacity="0";
+},3000);
+
+},2000);
+
+setTimeout(()=>{
+document.getElementById("nextSurpriseBtn").style.display="inline-block";
+},5500);
+
+}
+</script>
+</body>
+</html>

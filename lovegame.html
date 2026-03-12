@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Our Love Games ❤️</title>
+
+<style>
+
+body{
+margin:0;
+height:100vh;
+overflow:hidden;
+display:flex;
+justify-content:center;
+align-items:center;
+font-family:'Poppins',sans-serif;
+background:radial-gradient(circle,#14030a,#000);
+color:white;
+text-align:center;
+}
+
+/* FLOATING HEARTS */
+
+.heart{
+position:absolute;
+font-size:22px;
+animation:floatUp linear infinite;
+opacity:.7;
+}
+
+@keyframes floatUp{
+0%{transform:translateY(100vh)}
+100%{transform:translateY(-20vh)}
+}
+
+/* SCREENS */
+
+.screen{
+position:absolute;
+width:100%;
+height:100%;
+display:none;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+}
+
+.active{display:flex}
+
+/* BUTTONS */
+
+button{
+margin-top:20px;
+padding:14px 30px;
+border:none;
+border-radius:40px;
+background:linear-gradient(45deg,#ffd6e8,#ff9ebc);
+cursor:pointer;
+font-weight:bold;
+font-size:16px;
+transition:.3s;
+box-shadow:0 0 10px rgba(255,150,190,.4);
+}
+
+button:hover{
+transform:scale(1.05);
+box-shadow:0 0 20px pink;
+}
+
+/* ================= MEMORY ================= */
+
+.memoryGrid{
+display:grid;
+grid-template-columns:repeat(4,95px);
+gap:20px;
+margin-top:20px;
+}
+
+.card{
+width:95px;
+height:95px;
+perspective:1000px;
+cursor:pointer;
+}
+
+.cardInner{
+width:100%;
+height:100%;
+position:relative;
+transform-style:preserve-3d;
+transition:transform .7s ease;
+}
+
+.card.flip .cardInner{
+transform:rotateY(180deg);
+}
+
+.front,.back{
+position:absolute;
+width:100%;
+height:100%;
+border-radius:16px;
+backface-visibility:hidden;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.front{
+font-size:30px;
+background:linear-gradient(145deg,#2a0d16,#12040a);
+border:2px solid rgba(255,150,190,0.4);
+box-shadow:
+0 0 10px rgba(255,150,190,0.4),
+0 0 25px rgba(255,120,170,0.3),
+inset 0 0 10px rgba(255,100,160,0.2);
+}
+
+.back{
+transform:rotateY(180deg);
+background-size:cover;
+background-position:center;
+border:3px solid rgba(255,170,210,0.7);
+box-shadow:
+0 0 15px rgba(255,120,170,0.6),
+0 0 35px rgba(255,120,170,0.4);
+}
+
+/* HEART BURST */
+
+.matchHeart{
+position:absolute;
+font-size:22px;
+pointer-events:none;
+animation:heartBurst 1.2s ease forwards;
+}
+
+@keyframes heartBurst{
+0%{transform:scale(.5);opacity:1}
+100%{transform:translateY(-80px) scale(1.6);opacity:0}
+}
+
+/* SUCCESS MESSAGE */
+
+.successMessage{
+position:absolute;
+font-size:36px;
+color:#ffd6e8;
+text-shadow:0 0 20px pink;
+animation:popLove 1.5s ease forwards;
+}
+
+@keyframes popLove{
+0%{transform:scale(.3);opacity:0}
+60%{transform:scale(1.2);opacity:1}
+100%{transform:scale(1);opacity:1}
+}
+
+/* ================= PUZZLE ================= */
+
+.puzzle{
+display:grid;
+grid-template-columns:repeat(3,100px);
+gap:6px;
+margin-top:20px;
+}
+
+.piece{
+width:100px;
+height:100px;
+background-image:url(media/pic3.jpg);
+background-size:300px 300px;
+cursor:pointer;
+border-radius:10px;
+border:2px solid rgba(255,150,190,0.5);
+box-shadow:
+0 0 10px rgba(255,120,170,0.5),
+0 0 20px rgba(255,120,170,0.3);
+transition:.3s;
+}
+
+.piece:hover{
+transform:scale(1.07);
+box-shadow:
+0 0 20px pink,
+0 0 40px hotpink;
+}
+
+.selected{
+outline:3px solid pink;
+transform:scale(1.05);
+}
+
+/* FUTURE STORY */
+
+.choice{
+margin:12px;
+padding:14px 22px;
+border:2px solid pink;
+border-radius:30px;
+cursor:pointer;
+transition:.3s;
+font-size:18px;
+}
+
+.choice:hover{
+background:pink;
+color:black;
+}
+
+/* PROPOSAL */
+
+#proposal{
+background:radial-gradient(circle,#000 40%,#14030a);
+padding:0 20px;
+position:relative;
+overflow-y:auto;
+}
+
+.proposalText{
+max-width:420px;
+font-size:28px;
+line-height:1.4;
+color:#ffd6e8;
+text-align:center;
+text-shadow:0 0 14px #ff9ebc;
+}
+
+.proposalLine{
+opacity:0;
+transform:translateY(20px);
+margin-bottom:1.5em;
+transition:opacity 1.5s ease,transform 1.5s ease;
+}
+
+.proposalLine.visible{
+opacity:1;
+transform:translateY(0);
+}
+
+.ring{
+font-size:90px;
+margin-top:30px;
+transform:scale(0);
+transition:1.5s;
+}
+
+.glow{
+animation:glow 2s infinite alternate;
+}
+
+@keyframes glow{
+from{text-shadow:0 0 10px pink}
+to{text-shadow:0 0 45px hotpink}
+}
+
+/* MENU */
+
+.menuContainer{
+text-align:center;
+animation:fadeIn 2s ease;
+width:400px;
+padding:20px;
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(20px)}
+to{opacity:1;transform:translateY(0)}
+}
+
+.mainTitle{
+font-size:42px;
+color:#ffd6e8;
+text-shadow:0 0 10px #ff9ebc,0 0 25px #ff6fa5,0 0 40px #ff4d8d;
+margin-bottom:10px;
+}
+
+.subtitle{
+font-size:16px;
+opacity:.85;
+margin-bottom:30px;
+}
+
+.menuButtons{
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+.loveBtn{
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+padding:14px 25px;
+border-radius:35px;
+font-size:18px;
+background:linear-gradient(45deg,#ffd6e8,#ff9ebc);
+transition:.4s;
+cursor:pointer;
+box-shadow:0 0 12px rgba(255,150,190,.4);
+}
+
+.loveBtn:hover{
+transform:scale(1.06);
+box-shadow:0 0 18px pink,0 0 35px hotpink;
+}
+
+.locked{opacity:.6}
+
+</style>
+</head>
+
+<body>
+
+<audio id="bgMusic" src="media/song1.mp3" loop></audio>
+
+<!-- MENU -->
+
+<div id="menu" class="screen active">
+<div class="menuContainer">
+
+<h1 class="mainTitle">Our Love Games ❤️</h1>
+<p class="subtitle">Every game unlocks a piece of our love story 💞</p>
+
+<div class="menuButtons">
+
+<button class="loveBtn" onclick="show('memory')">
+📸 Memory Match
+</button>
+
+<button class="loveBtn" onclick="show('puzzle')">
+🧩 Love Puzzle
+</button>
+
+<button class="loveBtn" onclick="startFuture()">
+🌌 Our Future Story
+</button>
+
+<button id="proposalBtn" class="loveBtn locked" disabled onclick="openProposal()">
+💍 Final Proposal
+</button>
+
+</div>
+</div>
+</div>
+
+<!-- MEMORY -->
+
+<div id="memory" class="screen">
+<h2>Match Our Memories 📸</h2>
+<div class="memoryGrid" id="memoryGrid"></div>
+</div>
+
+<!-- PUZZLE -->
+
+<div id="puzzle" class="screen">
+<h2>Complete Our Picture ❤️</h2>
+<div class="puzzle" id="puzzleGrid"></div>
+</div>
+
+<!-- FUTURE -->
+
+<div id="future" class="screen">
+<h2 id="futureQuestion"></h2>
+<div id="futureChoices"></div>
+</div>
+
+<!-- PROPOSAL -->
+
+<div id="proposal" class="screen">
+<div class="proposalText" id="proposalText"></div>
+<div class="ring" id="ring">💍</div>
+<button id="yesBtn" style="display:none;" onclick="finalYes()">YES ❤️</button>
+</div>
+
+<script>
+
+/* MUSIC */
+
+let musicStarted=false;
+document.addEventListener("click",()=>{
+if(!musicStarted){
+document.getElementById("bgMusic").play().catch(()=>{});
+musicStarted=true;
+}
+});
+
+/* HEARTS */
+
+setInterval(()=>{
+let h=document.createElement("div");
+h.className="heart";
+h.innerHTML="💖";
+h.style.left=Math.random()*100+"vw";
+h.style.animationDuration=(5+Math.random()*3)+"s";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),7000);
+},700);
+
+/* SCREEN */
+
+function show(id){
+document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+}
+
+/* PROGRESS */
+
+let completedGames=0;
+
+function gameCompleted(){
+
+completedGames++;
+
+if(completedGames>=3){
+
+let btn=document.getElementById("proposalBtn");
+btn.disabled=false;
+btn.classList.remove("locked");
+btn.style.background="linear-gradient(45deg,gold,orange)";
+}
+
+}
+
+/* HEART BURST */
+
+function createMatchHearts(x,y){
+
+for(let i=0;i<6;i++){
+
+let h=document.createElement("div");
+
+h.className="matchHeart";
+
+h.innerHTML="💖";
+
+h.style.left=(x+Math.random()*40-20)+"px";
+h.style.top=(y+Math.random()*20-10)+"px";
+
+document.body.appendChild(h);
+
+setTimeout(()=>h.remove(),1200);
+
+}
+
+}
+
+/* MEMORY GAME */
+
+const memoryGrid=document.getElementById("memoryGrid");
+
+const photos=[
+"media/pic5.jpeg","media/pic0.jpeg","media/pic7.jpeg","media/pic8.jpeg",
+"media/pic16.jpeg","media/pic17.jpeg","media/pic1.jpg","media/pic2.jpg"
+];
+
+let cards=[...photos,...photos].sort(()=>0.5-Math.random());
+
+let flipped=[];
+let matched=0;
+
+cards.forEach(src=>{
+
+let card=document.createElement("div");
+
+card.className="card";
+
+card.innerHTML=`<div class="cardInner">
+<div class="front">❤️</div>
+<div class="back" style="background-image:url(${src})"></div>
+</div>`;
+
+card.onclick=()=>{
+
+if(flipped.length===2 || card.classList.contains("flip")) return;
+
+card.classList.add("flip");
+
+flipped.push({card,src});
+
+if(flipped.length===2){
+
+if(flipped[0].src===flipped[1].src){
+
+let rect=flipped[0].card.getBoundingClientRect();
+
+createMatchHearts(rect.left+40,rect.top+40);
+
+matched++;
+
+flipped=[];
+
+if(matched===8){
+
+let msg=document.createElement("div");
+
+msg.className="successMessage";
+
+msg.innerText="All Memories Matched ❤️";
+
+document.body.appendChild(msg);
+
+setTimeout(()=>{
+
+msg.remove();
+
+gameCompleted();
+
+show("menu");
+
+},2000);
+
+}
+
+}else{
+
+setTimeout(()=>{
+flipped.forEach(f=>f.card.classList.remove("flip"));
+flipped=[];
+},600);
+
+}
+
+}
+
+};
+
+memoryGrid.appendChild(card);
+
+});
+
+/* PUZZLE */
+
+const puzzleGrid=document.getElementById("puzzleGrid");
+
+let order=[0,1,2,3,4,5,6,7,8].sort(()=>0.5-Math.random());
+
+let selected=null;
+
+function renderPuzzle(){
+
+puzzleGrid.innerHTML="";
+
+order.forEach((num,i)=>{
+
+let piece=document.createElement("div");
+
+piece.className="piece";
+
+piece.style.backgroundPosition=`${-(num%3)*100}px ${-Math.floor(num/3)*100}px`;
+
+piece.onclick=()=>{
+
+if(selected===null){selected=i;piece.classList.add("selected");return;}
+
+[order[selected],order[i]]=[order[i],order[selected]];
+
+selected=null;
+
+renderPuzzle();
+
+checkPuzzle();
+
+};
+
+puzzleGrid.appendChild(piece);
+
+});
+
+}
+
+function checkPuzzle(){
+
+if(order.every((v,i)=>v===i)){
+
+gameCompleted();
+
+setTimeout(()=>show("menu"),1000);
+
+}
+
+}
+
+renderPuzzle();
+
+/* FUTURE */
+
+let storyStep=0;
+
+const story=[
+{
+q:"On a peaceful evening together... what are we doing? 💞",
+a:[
+"🌅 Watching the sunset holding hands",
+"🎶 Dancing slowly to our favorite song",
+"☕ Drinking coffee and talking for hours",
+"🌙 Cuddling and sleeping peacefully"
+]
+},
+
+{
+q:"If life gave me only one choice… what would I choose? ❤️",
+a:[
+"💍 Choosing you forever",
+"🌍 A lifetime of adventures with you",
+"💞 A home filled with our love",
+"♾️ Loving you in every lifetime"
+]
+},
+{
+q:"Years later... when our hair turns grey, what will we still do? 💍",
+a:[
+"🤝 Still holding hands everywhere",
+"✈️ Traveling the world together",
+"😂 Laughing at our old memories",
+"❤️ Falling in love again every day"
+]
+},
+
+{
+q:"What would our perfect day together look like? ☀️",
+a:[
+"Morning coffee and long talks ☕",
+"Evening walks holding hands 🚶",
+"Movie nights cuddled together 🎬",
+"Cooking dinner together 🍳"
+]
+},
+];
+
+function startFuture(){
+
+storyStep=0;
+
+show("future");
+
+loadStory();
+
+}
+
+function loadStory(){
+
+futureQuestion.innerText=story[storyStep].q;
+
+futureChoices.innerHTML="";
+
+story[storyStep].a.forEach(choice=>{
+
+let btn=document.createElement("div");
+
+btn.className="choice";
+
+btn.innerText=choice;
+
+btn.onclick=()=>{
+
+storyStep++;
+
+if(storyStep<story.length){loadStory();}
+else{gameCompleted();setTimeout(()=>show("menu"),1000);}
+
+};
+
+futureChoices.appendChild(btn);
+
+});
+
+}
+
+/* PROPOSAL */
+
+const proposalLines=[
+"My Love ❤️",
+"From our first smile to every memory we shared,",
+"You are my forever.",
+"Will you stay with me forever? 💍"
+];
+
+function openProposal(){
+
+if(completedGames<3){
+alert("Complete all love games first ❤️");
+return;
+}
+
+show("proposal");
+
+const text=document.getElementById("proposalText");
+const ring=document.getElementById("ring");
+const yesBtn=document.getElementById("yesBtn");
+
+text.innerHTML="";
+ring.style.transform="scale(0)";
+ring.classList.remove("glow");
+yesBtn.style.display="none";
+
+let i=0;
+
+function showLine(){
+
+if(i<proposalLines.length){
+
+const lineDiv=document.createElement("div");
+
+lineDiv.className="proposalLine";
+
+lineDiv.innerText=proposalLines[i];
+
+text.appendChild(lineDiv);
+
+setTimeout(()=>lineDiv.classList.add("visible"),200);
+
+i++;
+
+setTimeout(showLine,1800);
+
+}else{
+
+setTimeout(()=>{
+ring.style.transform="scale(1)";
+ring.classList.add("glow");
+
+setTimeout(()=>{yesBtn.style.display="inline-block"},1200);
+
+},800);
+
+}
+
+}
+
+showLine();
+
+}
+
+function finalYes(){
+window.location.href="surprise.html";
+}
+
+</script>
+
+</body>
+</html>
