@@ -371,6 +371,8 @@ box-shadow:0 0 18px pink,0 0 35px hotpink;
 <div class="proposalText" id="proposalText"></div>
 <div class="ring" id="ring">💍</div>
 <button id="yesBtn" style="display:none;" onclick="finalYes()">YES ❤️</button>
+<button id="noBtn" style="display:none; position:absolute; margin-left:20px;">NO (sammathikullada njn😜)</button>
+
 </div>
 
 <script>
@@ -720,12 +722,18 @@ setTimeout(()=>{
 ring.style.transform="scale(1)";
 ring.classList.add("glow");
 
-setTimeout(()=>{yesBtn.style.display="inline-block"},1200);
+setTimeout(()=>{
+yesBtn.style.display="inline-block";
 
+const noBtn=document.getElementById("noBtn");
+noBtn.style.display="inline-block";
+
+placeNoNearYes();
+
+},1200);
 },800);
 
 }
-
 }
 
 showLine();
@@ -735,6 +743,63 @@ showLine();
 function finalYes(){
 window.location.href="surprise.html";
 }
+
+/* NO BUTTON ESCAPE SYSTEM */
+
+const noBtn = document.getElementById("noBtn");
+
+/* place NO button beside YES when it appears */
+function placeNoNearYes(){
+
+const yesBtn = document.getElementById("yesBtn");
+
+const yesRect = yesBtn.getBoundingClientRect();
+
+noBtn.style.left = (yesRect.right + 20) + "px";
+noBtn.style.top = yesRect.top + "px";
+
+}
+
+/* move NO button randomly */
+function moveNo(){
+
+const maxX = window.innerWidth - noBtn.offsetWidth;
+const maxY = window.innerHeight - noBtn.offsetHeight;
+
+const randomX = Math.random() * maxX;
+const randomY = Math.random() * maxY;
+
+noBtn.style.left = randomX + "px";
+noBtn.style.top = randomY + "px";
+
+}
+
+/* run away when cursor comes close (smooth version) */
+
+let escaping=false;
+
+document.addEventListener("mousemove",(e)=>{
+
+if(noBtn.style.display==="none" || escaping) return;
+
+const rect=noBtn.getBoundingClientRect();
+
+const distX=Math.abs(e.clientX-(rect.left+rect.width/2));
+const distY=Math.abs(e.clientY-(rect.top+rect.height/2));
+
+if(distX<120 && distY<80){
+
+escaping=true;
+
+moveNo();
+
+setTimeout(()=>{
+escaping=false;
+},300);
+
+}
+
+});
 
 </script>
 
